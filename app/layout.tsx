@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Manoz's Portfolio — High-Converting Websites",
+  title: "Manoz — High-Converting Websites",
   description:
     "I build high-converting websites for creators, local businesses, and Instagram-based sellers. Turn your audience into customers.",
   keywords: ["web developer", "portfolio", "Instagram seller website", "business website"],
@@ -21,7 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="bg-[#0a0a0f] text-white antialiased">
         <AuthProvider>
           <Navbar />
           <main className="min-h-screen">{children}</main>
