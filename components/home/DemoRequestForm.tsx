@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { createDemoRequest } from "@/lib/firestore";
 import { useRouter } from "next/navigation";
+import { Loader2, Send } from "lucide-react";
 
 const BUSINESS_TYPES = [
   "Online Creator / Influencer",
@@ -31,7 +32,9 @@ export default function DemoRequestForm() {
   const [error, setError] = useState("");
 
   const handle = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const submit = async (e: React.FormEvent) => {
@@ -60,9 +63,14 @@ export default function DemoRequestForm() {
   if (success) {
     return (
       <div className="text-center py-10">
-        <div className="text-5xl mb-4">🎉</div>
-        <h3 className="text-xl font-bold text-slate-900 mb-2">Request Received!</h3>
-        <p className="text-slate-500">
+        <div className="text-6xl mb-4 animate-float">🎉</div>
+        <h3
+          className="text-xl font-bold text-white mb-2"
+          style={{ fontFamily: 'Syne, sans-serif' }}
+        >
+          Request Received!
+        </h3>
+        <p className="text-slate-400 text-sm">
           I'll prepare your free demo and reach out on WhatsApp within 24 hours.
         </p>
       </div>
@@ -70,10 +78,10 @@ export default function DemoRequestForm() {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-4 max-w-lg mx-auto">
+    <form onSubmit={submit} className="space-y-4">
       {/* Name */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">
+        <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
           Your Name *
         </label>
         <input
@@ -82,13 +90,13 @@ export default function DemoRequestForm() {
           onChange={handle}
           required
           placeholder="e.g. Rahul Sharma"
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className={inp}
         />
       </div>
 
       {/* WhatsApp */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">
+        <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
           WhatsApp Number *
         </label>
         <input
@@ -97,13 +105,13 @@ export default function DemoRequestForm() {
           onChange={handle}
           required
           placeholder="+91 9876543210"
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className={inp}
         />
       </div>
 
       {/* Business Type */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">
+        <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
           Business Type *
         </label>
         <select
@@ -111,18 +119,20 @@ export default function DemoRequestForm() {
           value={form.businessType}
           onChange={handle}
           required
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 bg-white"
+          className={inp + " bg-[#0f0f1a]"}
         >
           <option value="">Select your business type</option>
           {BUSINESS_TYPES.map((t) => (
-            <option key={t} value={t}>{t}</option>
+            <option key={t} value={t}>
+              {t}
+            </option>
           ))}
         </select>
       </div>
 
       {/* Requirement */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">
+        <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
           What do you need? *
         </label>
         <textarea
@@ -132,27 +142,37 @@ export default function DemoRequestForm() {
           required
           rows={4}
           placeholder="Tell me about your business and what kind of website you're looking for..."
-          className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 resize-none"
+          className={inp + " resize-none"}
         />
       </div>
 
       {error && (
-        <p className="text-red-500 text-sm text-center">{error}</p>
+        <p className="text-red-400 text-sm text-center bg-red-500/10 rounded-xl py-2">
+          {error}
+        </p>
       )}
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-60 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm"
+        className="w-full btn-gradient disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2"
       >
+        {loading ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Send className="w-4 h-4" />
+        )}
         {loading ? "Submitting..." : "🚀 Request My Free Demo"}
       </button>
 
       {!firebaseUser && (
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-slate-500">
           You'll be asked to sign in with Google first.
         </p>
       )}
     </form>
   );
 }
+
+const inp =
+  "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition-all";
