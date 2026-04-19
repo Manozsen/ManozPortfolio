@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore";
+{ Timestamp } from "firebase/firestore";
 
 // ─── User ────────────────────────────────────────────────────────────────────
 export interface User {
@@ -53,4 +53,10 @@ export interface AdminSettings {
   defaultTheme: "light" | "dark";
   homepageHeadline: string;
   homepageSubtext: string;
+  profileImageUrl: string;
+  profileImageSize: "small" | "medium" | "large";
+  profileImageShape: "circle" | "rounded" | "square";
+  heroBgImageUrl: string;
+  heroBgOpacity: number;
+  heroBgColor: string;
 }
