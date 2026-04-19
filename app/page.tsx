@@ -5,7 +5,7 @@ import DemoRequestForm from "@/components/home/DemoRequestForm";
 import WhatsAppButton from "@/components/shared/WhatsAppButton";
 import Link from "next/link";
 
-export const revalidate = 60; // ISR — refresh every 60 seconds
+export const revalidate = 60;
 
 export default async function HomePage() {
   const [projects, settings] = await Promise.all([
@@ -19,6 +19,7 @@ export default async function HomePage() {
       <HeroSection
         headline={settings.homepageHeadline}
         subtext={settings.homepageSubtext}
+        settings={settings}
       />
 
       {/* ── Who I Help ───────────────────────────────────── */}
@@ -28,7 +29,9 @@ export default async function HomePage() {
             Who I Build For
           </h2>
           <p className="text-slate-500 mb-10 max-w-lg mx-auto">
-            Whether you're growing on Instagram, running a local shop, or creating content — your business deserves a professional online presence.
+            Whether you're growing on Instagram, running a local shop, or
+            creating content — your business deserves a professional online
+            presence.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
@@ -53,7 +56,9 @@ export default async function HomePage() {
                 className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="text-4xl mb-3">{card.emoji}</div>
-                <h3 className="font-semibold text-slate-800 mb-1">{card.title}</h3>
+                <h3 className="font-semibold text-slate-800 mb-1">
+                  {card.title}
+                </h3>
                 <p className="text-sm text-slate-500">{card.desc}</p>
               </div>
             ))}
@@ -85,7 +90,9 @@ export default async function HomePage() {
                 className="bg-violet-50 rounded-2xl p-5 flex flex-col items-center gap-2"
               >
                 <span className="text-3xl">{item.icon}</span>
-                <span className="text-sm font-semibold text-violet-800">{item.label}</span>
+                <span className="text-sm font-semibold text-violet-800">
+                  {item.label}
+                </span>
               </div>
             ))}
           </div>
@@ -99,7 +106,8 @@ export default async function HomePage() {
             See Your Website Before You Pay
           </h2>
           <p className="text-violet-100 mb-8">
-            I'll build a free demo tailored to your business. No payment, no commitment — just results.
+            I'll build a free demo tailored to your business. No payment, no
+            commitment — just results.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             <Link
