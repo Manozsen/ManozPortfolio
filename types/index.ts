@@ -1,4 +1,4 @@
-{ Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
 // ─── User ────────────────────────────────────────────────────────────────────
 export interface User {
