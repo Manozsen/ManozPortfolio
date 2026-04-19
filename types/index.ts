@@ -1,5 +1,4 @@
 import { Timestamp } from "firebase/firestore";
-
 // ─── User ────────────────────────────────────────────────────────────────────
 export interface User {
   id: string;
