@@ -19,7 +19,10 @@ export default function ProjectsPage() {
     });
   }, []);
 
-  const categories = [...new Set(projects.map((p) => p.category))];
+  const categories = Array.from(
+    new Set(projects.map((p) => p.category))
+  ) as string[];
+
   const filtered =
     activeCategory === "All"
       ? projects
@@ -27,7 +30,6 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header */}
       <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-12 px-4 text-center">
         <h1 className="text-2xl md:text-4xl font-extrabold mb-3">My Projects</h1>
         <p className="text-slate-300 text-sm md:text-base max-w-xl mx-auto">
@@ -36,7 +38,6 @@ export default function ProjectsPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-10">
-        {/* Filter */}
         {!loading && categories.length > 0 && (
           <div className="mb-8">
             <ProjectFilter
@@ -47,7 +48,6 @@ export default function ProjectsPage() {
           </div>
         )}
 
-        {/* Grid */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
@@ -67,7 +67,6 @@ export default function ProjectsPage() {
           </div>
         )}
 
-        {/* CTA */}
         <div className="mt-14 bg-gradient-to-br from-violet-600 to-indigo-700 rounded-2xl p-8 text-center text-white">
           <h2 className="text-xl font-bold mb-2">Want a Site Like These?</h2>
           <p className="text-violet-100 text-sm mb-5">
