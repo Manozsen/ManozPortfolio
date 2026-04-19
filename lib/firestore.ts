@@ -26,7 +26,8 @@ export async function createOrUpdateUser(
   if (!snap.exists()) {
     await setDoc(ref, {
       ...data,
-      role: data.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "admin" : "client",
+      role:
+        data.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "admin" : "client",
       createdAt: serverTimestamp(),
     });
   }
@@ -157,6 +158,12 @@ export async function getAdminSettings(): Promise<AdminSettings> {
         "I build high-converting websites for creators, local businesses, and Instagram-based sellers",
       homepageSubtext:
         "Turn your audience into customers with a website built for trust and conversions",
+      profileImageUrl: "",
+      profileImageSize: "medium",
+      profileImageShape: "rounded",
+      heroBgImageUrl: "",
+      heroBgOpacity: 10,
+      heroBgColor: "#f8f7ff",
     };
   }
   return snap.data() as AdminSettings;
