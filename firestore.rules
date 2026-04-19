@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper Functions ─────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    // ── Users Collection ─────────────────────────────────────
+    match /users/{userId} {
+      // Anyone can create their own user doc on signup
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      // Users can read/update their own doc; admins can read all
+      allow read: if isOwner(userId) || isAdmin();
+      allow update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ── Demo Requests ────────────────────────────────────────
+    match /demoRequests/{docId} {
+      // Authenticated users can create a request
+      allow create: if isSignedIn();
+      // Users can only read their own requests; admins read all
+      allow read: if isSignedIn() &&
+        (resource.data.userId == request.auth.uid || isAdmin());
+      // Only admins can update (change status) or delete
+      allow update, delete: if isAdmin();
+    }
+
+    // ── Demos ────────────────────────────────────────────────
+    match /demos/{docId} {
+      // Only admins can create/update/delete demos
+      allow create, update, delete: if isAdmin();
+      // Users can only read demos assigned to them; admins read all
+      allow read: if isSignedIn() &&
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // ── Projects ─────────────────────────────────────────────
+    match /projects/{docId} {
+      // Public read — anyone can view projects
+      allow read: if true;
+      // Only admins can create, update, delete
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Admin Settings ───────────────────────────────────────
+    match /adminSettings/{docId} {
+      // Public read — needed for homepage
+      allow read: if true;
+      // Only admins can write
+      allow write: if isAdmin();
+    }
+  }
+}
