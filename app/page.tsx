@@ -1,4 +1,4 @@
-getAllProjects, getAdminSettings } from "@/lib/firestore";
+import { getAllProjects, getAdminSettings } from "@/lib/firestore";
 import HeroSection from "@/components/home/HeroSection";
 import ProjectsPreview from "@/components/home/ProjectsPreview";
 import DemoRequestForm from "@/components/home/DemoRequestForm";
@@ -15,22 +15,17 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Hero ─────────────────────────────────────────── */}
       <HeroSection
         headline={settings.homepageHeadline}
         subtext={settings.homepageSubtext}
         settings={settings}
       />
 
-      {/* ── Who I Help ───────────────────────────────────── */}
       <section className="py-24 bg-[#0d0d16] relative overflow-hidden">
-        {/* Background decoration */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-transparent via-violet-500/30 to-transparent" />
         </div>
-
         <div className="max-w-6xl mx-auto px-4 relative z-10">
-          {/* Section header */}
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs font-semibold text-violet-400 uppercase tracking-widest mb-4">
               <span className="w-1.5 h-1.5 bg-violet-400 rounded-full animate-pulse" />
@@ -38,7 +33,7 @@ export default async function HomePage() {
             </span>
             <h2
               className="text-3xl md:text-5xl font-extrabold text-white mb-4"
-              style={{ fontFamily: 'Syne, sans-serif' }}
+              style={{ fontFamily: "Syne, sans-serif" }}
             >
               Built for{" "}
               <span className="gradient-text">your business</span>
@@ -48,8 +43,6 @@ export default async function HomePage() {
               creating content — you deserve a site that converts.
             </p>
           </div>
-
-          {/* Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               {
@@ -58,7 +51,6 @@ export default async function HomePage() {
                 desc: "Turn your followers into buyers with a personal brand site that converts.",
                 color: "from-violet-600/20 to-purple-600/5",
                 border: "border-violet-500/20",
-                glow: "hover:shadow-violet-500/10",
               },
               {
                 emoji: "🏪",
@@ -66,7 +58,6 @@ export default async function HomePage() {
                 desc: "Get found online. Show your services, collect leads, and grow locally.",
                 color: "from-blue-600/20 to-cyan-600/5",
                 border: "border-blue-500/20",
-                glow: "hover:shadow-blue-500/10",
               },
               {
                 emoji: "📦",
@@ -74,26 +65,18 @@ export default async function HomePage() {
                 desc: "Move beyond DMs. Sell products with a trust-building storefront.",
                 color: "from-pink-600/20 to-rose-600/5",
                 border: "border-pink-500/20",
-                glow: "hover:shadow-pink-500/10",
               },
             ].map((card) => (
               <div
                 key={card.title}
-                className={`
-                  relative rounded-3xl p-6 border ${card.border}
-                  bg-gradient-to-br ${card.color}
-                  backdrop-blur-sm
-                  hover:shadow-2xl ${card.glow}
-                  transition-all duration-500 hover:-translate-y-2
-                  group
-                `}
+                className={`relative rounded-3xl p-6 border ${card.border} bg-gradient-to-br ${card.color} backdrop-blur-sm hover:-translate-y-2 transition-all duration-500 group`}
               >
                 <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   {card.emoji}
                 </div>
                 <h3
                   className="font-bold text-white mb-2 text-lg"
-                  style={{ fontFamily: 'Syne, sans-serif' }}
+                  style={{ fontFamily: "Syne, sans-serif" }}
                 >
                   {card.title}
                 </h3>
@@ -106,12 +89,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Projects Preview ─────────────────────────────── */}
       <section className="py-4 bg-[#0a0a0f]">
         <ProjectsPreview projects={projects} />
       </section>
 
-      {/* ── Why Me ───────────────────────────────────────── */}
       <section className="py-24 bg-[#0d0d16]">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -121,13 +102,12 @@ export default async function HomePage() {
             </span>
             <h2
               className="text-3xl md:text-5xl font-extrabold text-white mb-4"
-              style={{ fontFamily: 'Syne, sans-serif' }}
+              style={{ fontFamily: "Syne, sans-serif" }}
             >
               Not just a website.{" "}
               <span className="gradient-text">A growth tool.</span>
             </h2>
           </div>
-
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: "⚡", label: "Fast Delivery", desc: "Live in days" },
@@ -145,7 +125,7 @@ export default async function HomePage() {
                 <div>
                   <p
                     className="font-bold text-white text-sm"
-                    style={{ fontFamily: 'Syne, sans-serif' }}
+                    style={{ fontFamily: "Syne, sans-serif" }}
                   >
                     {item.label}
                   </p>
@@ -157,14 +137,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA Banner ───────────────────────────────────── */}
       <section className="py-24 bg-[#0a0a0f] relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-r from-violet-600/10 via-indigo-600/10 to-blue-600/10" />
           <div className="animate-float absolute top-0 right-0 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl" />
           <div className="animate-float-delayed absolute bottom-0 left-0 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl" />
         </div>
-
         <div className="relative z-10 max-w-3xl mx-auto px-4 text-center">
           <div className="glass-strong rounded-3xl p-10 md:p-16 gradient-border">
             <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs font-semibold text-violet-400 uppercase tracking-widest mb-6">
@@ -172,7 +150,7 @@ export default async function HomePage() {
             </span>
             <h2
               className="text-3xl md:text-5xl font-extrabold text-white mb-4"
-              style={{ fontFamily: 'Syne, sans-serif' }}
+              style={{ fontFamily: "Syne, sans-serif" }}
             >
               See your website
               <br />
@@ -199,16 +177,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Demo Request Form ────────────────────────────── */}
       <section className="py-24 bg-[#0d0d16]" id="request-form">
         <div className="max-w-xl mx-auto px-4">
           <div className="text-center mb-10">
             <span className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs font-semibold text-violet-400 uppercase tracking-widest mb-4">
-              ✨ Free — No Credit Required
+              ✨ Free — No Credit Card
             </span>
             <h2
               className="text-3xl md:text-4xl font-extrabold text-white mb-3"
-              style={{ fontFamily: 'Syne, sans-serif' }}
+              style={{ fontFamily: "Syne, sans-serif" }}
             >
               Request a{" "}
               <span className="gradient-text">Free Demo</span>
@@ -222,3 +199,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
