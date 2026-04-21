@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-// ─── User ────────────────────────────────────────────────────────────────────
+
 export interface User {
   id: string;
   name: string;
@@ -9,7 +9,6 @@ export interface User {
   createdAt: Timestamp;
 }
 
-// ─── Demo Request ─────────────────────────────────────────────────────────────
 export interface DemoRequest {
   id: string;
   userId: string;
@@ -22,7 +21,6 @@ export interface DemoRequest {
   createdAt: Timestamp;
 }
 
-// ─── Demo ─────────────────────────────────────────────────────────────────────
 export interface Demo {
   id: string;
   userId: string;
@@ -33,7 +31,6 @@ export interface Demo {
   createdAt: Timestamp;
 }
 
-// ─── Project ──────────────────────────────────────────────────────────────────
 export interface Project {
   id: string;
   title: string;
@@ -47,7 +44,6 @@ export interface Project {
   createdAt: Timestamp;
 }
 
-// ─── Admin Settings ───────────────────────────────────────────────────────────
 export interface AdminSettings {
   defaultTheme: "light" | "dark";
   homepageHeadline: string;
