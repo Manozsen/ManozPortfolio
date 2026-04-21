@@ -6,10 +6,6 @@ export interface UploadResult {
   publicId: string;
 }
 
-/**
- * Upload a single file to Cloudinary via unsigned preset.
- * Works from mobile browser without any backend.
- */
 export async function uploadToCloudinary(file: File): Promise<UploadResult> {
   const formData = new FormData();
   formData.append("file", file);
@@ -27,15 +23,9 @@ export async function uploadToCloudinary(file: File): Promise<UploadResult> {
   }
 
   const data = await res.json();
-  return {
-    url: data.secure_url,
-    publicId: data.public_id,
-  };
+  return { url: data.secure_url, publicId: data.public_id };
 }
 
-/**
- * Upload multiple files — returns array of URLs.
- */
 export async function uploadMultipleToCloudinary(
   files: File[]
 ): Promise<string[]> {
