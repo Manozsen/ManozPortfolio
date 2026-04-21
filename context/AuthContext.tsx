@@ -44,7 +44,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsub = onAuthStateChanged(auth, async (fbUser) => {
       setFirebaseUser(fbUser);
       if (fbUser) {
-        // Create user doc if first login
         await createOrUpdateUser(fbUser.uid, {
           name: fbUser.displayName || "",
           email: fbUser.email || "",
