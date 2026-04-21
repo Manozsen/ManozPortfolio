@@ -5,13 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/** Build a pre-filled WhatsApp link */
 export function buildWhatsAppLink(message: string): string {
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
-/** Format Firestore Timestamp to readable date */
 export function formatDate(timestamp: { seconds: number } | null): string {
   if (!timestamp) return "—";
   return new Date(timestamp.seconds * 1000).toLocaleDateString("en-IN", {
@@ -21,16 +19,15 @@ export function formatDate(timestamp: { seconds: number } | null): string {
   });
 }
 
-/** Status color mapping */
 export function getStatusColor(
   status: string
-): { bg: string; text: string } {
-  const map: Record<string, { bg: string; text: string }> = {
-    pending: { bg: "bg-yellow-100", text: "text-yellow-700" },
-    in_progress: { bg: "bg-blue-100", text: "text-blue-700" },
-    completed: { bg: "bg-green-100", text: "text-green-700" },
-    ready: { bg: "bg-green-100", text: "text-green-700" },
-    updated: { bg: "bg-purple-100", text: "text-purple-700" },
+): { bg: string; text: string; dot: string } {
+  const map: Record<string, { bg: string; text: string; dot: string }> = {
+    pending: { bg: "bg-amber-50", text: "text-amber-700", dot: "bg-amber-400" },
+    in_progress: { bg: "bg-blue-50", text: "text-blue-700", dot: "bg-blue-400" },
+    completed: { bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-400" },
+    ready: { bg: "bg-emerald-50", text: "text-emerald-700", dot: "bg-emerald-400" },
+    updated: { bg: "bg-violet-50", text: "text-violet-700", dot: "bg-violet-400" },
   };
-  return map[status] ?? { bg: "bg-gray-100", text: "text-gray-600" };
+  return map[status] ?? { bg: "bg-slate-50", text: "text-slate-600", dot: "bg-slate-400" };
 }
