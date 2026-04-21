@@ -15,8 +15,6 @@ import {
 import { db } from "./firebase";
 import type { User, DemoRequest, Demo, Project, AdminSettings } from "@/types";
 
-// ─── USERS ────────────────────────────────────────────────────────────────────
-
 export async function createOrUpdateUser(
   uid: string,
   data: Partial<User>
@@ -44,8 +42,6 @@ export async function getAllUsers(): Promise<User[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as User));
 }
 
-// ─── DEMO REQUESTS ────────────────────────────────────────────────────────────
-
 export async function createDemoRequest(
   data: Omit<DemoRequest, "id" | "createdAt">
 ): Promise<string> {
@@ -72,8 +68,6 @@ export async function updateDemoRequestStatus(
 ): Promise<void> {
   await updateDoc(doc(db, "demoRequests", id), { status });
 }
-
-// ─── DEMOS ────────────────────────────────────────────────────────────────────
 
 export async function createDemo(
   data: Omit<Demo, "id" | "createdAt">
@@ -112,8 +106,6 @@ export async function deleteDemo(id: string): Promise<void> {
   await deleteDoc(doc(db, "demos", id));
 }
 
-// ─── PROJECTS ─────────────────────────────────────────────────────────────────
-
 export async function createProject(
   data: Omit<Project, "id" | "createdAt">
 ): Promise<string> {
@@ -147,8 +139,6 @@ export async function deleteProject(id: string): Promise<void> {
   await deleteDoc(doc(db, "projects", id));
 }
 
-// ─── ADMIN SETTINGS ───────────────────────────────────────────────────────────
-
 export async function getAdminSettings(): Promise<AdminSettings> {
   const snap = await getDoc(doc(db, "adminSettings", "main"));
   if (!snap.exists()) {
@@ -163,7 +153,7 @@ export async function getAdminSettings(): Promise<AdminSettings> {
       profileImageShape: "rounded",
       heroBgImageUrl: "",
       heroBgOpacity: 10,
-      heroBgColor: "#f8f7ff",
+      heroBgColor: "#060818",
     };
   }
   return snap.data() as AdminSettings;
