@@ -26,13 +26,17 @@ import type {
 
 // ─── USERS ────────────────────────────────────────────────────────────────────
 
-export async function createOrUpdateUser(uid: string, data: Partial<User>): Promise<void> {
+export async function createOrUpdateUser(
+  uid: string,
+  data: Partial<User>
+): Promise<void> {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
   if (!snap.exists()) {
     await setDoc(ref, {
       ...data,
-      role: data.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "admin" : "client",
+      role:
+        data.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL ? "admin" : "client",
       createdAt: serverTimestamp(),
     });
   }
@@ -51,32 +55,51 @@ export async function getAllUsers(): Promise<User[]> {
 
 // ─── DEMO REQUESTS ────────────────────────────────────────────────────────────
 
-export async function createDemoRequest(data: Omit<DemoRequest, "id" | "createdAt">): Promise<string> {
+export async function createDemoRequest(
+  data: Omit<DemoRequest, "id" | "createdAt">
+): Promise<string> {
   const ref = await addDoc(collection(db, "demoRequests"), {
-    ...data, status: "pending", createdAt: serverTimestamp(),
+    ...data,
+    status: "pending",
+    createdAt: serverTimestamp(),
   });
   return ref.id;
 }
 
 export async function getAllDemoRequests(): Promise<DemoRequest[]> {
-  const q = query(collection(db, "demoRequests"), orderBy("createdAt", "desc"));
+  const q = query(
+    collection(db, "demoRequests"),
+    orderBy("createdAt", "desc")
+  );
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as DemoRequest));
 }
 
-export async function updateDemoRequestStatus(id: string, status: DemoRequest["status"]): Promise<void> {
+export async function updateDemoRequestStatus(
+  id: string,
+  status: DemoRequest["status"]
+): Promise<void> {
   await updateDoc(doc(db, "demoRequests", id), { status });
 }
 
 // ─── DEMOS ────────────────────────────────────────────────────────────────────
 
-export async function createDemo(data: Omit<Demo, "id" | "createdAt">): Promise<string> {
-  const ref = await addDoc(collection(db, "demos"), { ...data, createdAt: serverTimestamp() });
+export async function createDemo(
+  data: Omit<Demo, "id" | "createdAt">
+): Promise<string> {
+  const ref = await addDoc(collection(db, "demos"), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
   return ref.id;
 }
 
 export async function getDemosByUser(userId: string): Promise<Demo[]> {
-  const q = query(collection(db, "demos"), where("userId", "==", userId), orderBy("createdAt", "desc"));
+  const q = query(
+    collection(db, "demos"),
+    where("userId", "==", userId),
+    orderBy("createdAt", "desc")
+  );
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Demo));
 }
@@ -87,7 +110,10 @@ export async function getAllDemos(): Promise<Demo[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Demo));
 }
 
-export async function updateDemo(id: string, data: Partial<Demo>): Promise<void> {
+export async function updateDemo(
+  id: string,
+  data: Partial<Demo>
+): Promise<void> {
   await updateDoc(doc(db, "demos", id), data);
 }
 
@@ -97,8 +123,13 @@ export async function deleteDemo(id: string): Promise<void> {
 
 // ─── PROJECTS ─────────────────────────────────────────────────────────────────
 
-export async function createProject(data: Omit<Project, "id" | "createdAt">): Promise<string> {
-  const ref = await addDoc(collection(db, "projects"), { ...data, createdAt: serverTimestamp() });
+export async function createProject(
+  data: Omit<Project, "id" | "createdAt">
+): Promise<string> {
+  const ref = await addDoc(collection(db, "projects"), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
   return ref.id;
 }
 
@@ -114,7 +145,10 @@ export async function getProject(id: string): Promise<Project | null> {
   return { id: snap.id, ...snap.data() } as Project;
 }
 
-export async function updateProject(id: string, data: Partial<Project>): Promise<void> {
+export async function updateProject(
+  id: string,
+  data: Partial<Project>
+): Promise<void> {
   await updateDoc(doc(db, "projects", id), data);
 }
 
@@ -129,8 +163,10 @@ export async function getAdminSettings(): Promise<AdminSettings> {
   if (!snap.exists()) {
     return {
       defaultTheme: "light",
-      homepageHeadline: "I build high-converting websites for creators, local businesses, and Instagram-based sellers",
-      homepageSubtext: "Turn your audience into customers with a website built for trust and conversions",
+      homepageHeadline:
+        "I build high-converting websites for creators, local businesses, and Instagram-based sellers",
+      homepageSubtext:
+        "Turn your audience into customers with a website built for trust and conversions",
       profileImageUrl: "",
       profileImageSize: "medium",
       profileImageShape: "rounded",
@@ -142,18 +178,26 @@ export async function getAdminSettings(): Promise<AdminSettings> {
   return snap.data() as AdminSettings;
 }
 
-export async function updateAdminSettings(data: Partial<AdminSettings>): Promise<void> {
+export async function updateAdminSettings(
+  data: Partial<AdminSettings>
+): Promise<void> {
   await setDoc(doc(db, "adminSettings", "main"), data, { merge: true });
 }
 
 // ─── HERO SETTINGS ────────────────────────────────────────────────────────────
 
 const DEFAULT_HERO: HeroSettings = {
-  heroTitle: "I build high-converting websites for creators, local businesses, and Instagram-based sellers",
-  heroSubtitle: "Turn your audience into customers with a website built for trust and conversions",
+  heroTitle:
+    "I build high-converting websites for creators, local businesses, and Instagram-based sellers",
+  heroSubtitle:
+    "Turn your audience into customers with a website built for trust and conversions",
   heroTagline: "Manoj Sen — Web Developer",
   profileImageUrl: "",
-  imageLayout: "right-hero",
+  imageLayout: "right",
+  imageShape: "none",
+  imageSize: "medium",
+  imageOpacity: 1,
+  imageVisible: true,
   backgroundType: "gradient",
   primaryColor: "#060818",
   secondaryColor: "#160830",
@@ -167,16 +211,23 @@ export async function getHeroSettings(): Promise<HeroSettings> {
   return { ...DEFAULT_HERO, ...snap.data() } as HeroSettings;
 }
 
-export async function updateHeroSettings(data: Partial<HeroSettings>): Promise<void> {
-  await setDoc(doc(db, "settings", "hero"), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+export async function updateHeroSettings(
+  data: Partial<HeroSettings>
+): Promise<void> {
+  await setDoc(
+    doc(db, "settings", "hero"),
+    { ...data, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
 }
 
 // ─── POPUP SETTINGS ───────────────────────────────────────────────────────────
 
 const DEFAULT_POPUP: PopupSettings = {
   enabled: false,
-  title: "Special Offer",
-  description: "Get a free website demo for your business — no payment required.",
+  title: "Get a Free Website Demo",
+  description:
+    "See exactly what your website will look like before spending a rupee.",
   image: "",
   buttonText: "Get Free Demo",
   buttonLink: "/request-demo",
@@ -188,16 +239,24 @@ export async function getPopupSettings(): Promise<PopupSettings> {
   return { ...DEFAULT_POPUP, ...snap.data() } as PopupSettings;
 }
 
-export async function updatePopupSettings(data: Partial<PopupSettings>): Promise<void> {
-  await setDoc(doc(db, "settings", "popup"), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+export async function updatePopupSettings(
+  data: Partial<PopupSettings>
+): Promise<void> {
+  await setDoc(
+    doc(db, "settings", "popup"),
+    { ...data, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
 }
 
 // ─── SEO SETTINGS ─────────────────────────────────────────────────────────────
 
 const DEFAULT_SEO: SeoSettings = {
   title: "Manoz — High-Converting Websites for Creators & Businesses",
-  description: "I build high-converting websites for creators, local businesses, and Instagram-based sellers. Get a free demo today.",
-  keywords: "web developer, portfolio, website design, Instagram seller website, local business website, Next.js developer India",
+  description:
+    "I build high-converting websites for creators, local businesses, and Instagram-based sellers. Get a free demo today.",
+  keywords:
+    "web developer, portfolio, website design, Instagram seller website, local business website, Next.js developer India",
   ogImage: "",
 };
 
@@ -207,6 +266,12 @@ export async function getSeoSettings(): Promise<SeoSettings> {
   return { ...DEFAULT_SEO, ...snap.data() } as SeoSettings;
 }
 
-export async function updateSeoSettings(data: Partial<SeoSettings>): Promise<void> {
-  await setDoc(doc(db, "settings", "seo"), { ...data, updatedAt: serverTimestamp() }, { merge: true });
+export async function updateSeoSettings(
+  data: Partial<SeoSettings>
+): Promise<void> {
+  await setDoc(
+    doc(db, "settings", "seo"),
+    { ...data, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
 }
