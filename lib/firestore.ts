@@ -13,7 +13,16 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
-import type { User, DemoRequest, Demo, Project, AdminSettings } from "@/types";
+import type {
+  User,
+  DemoRequest,
+  Demo,
+  Project,
+  AdminSettings,
+  HeroSettings,
+} from "@/types";
+
+// ─── USERS ────────────────────────────────────────────────────────────────────
 
 export async function createOrUpdateUser(
   uid: string,
@@ -42,6 +51,8 @@ export async function getAllUsers(): Promise<User[]> {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() } as User));
 }
 
+// ─── DEMO REQUESTS ────────────────────────────────────────────────────────────
+
 export async function createDemoRequest(
   data: Omit<DemoRequest, "id" | "createdAt">
 ): Promise<string> {
@@ -68,6 +79,8 @@ export async function updateDemoRequestStatus(
 ): Promise<void> {
   await updateDoc(doc(db, "demoRequests", id), { status });
 }
+
+// ─── DEMOS ────────────────────────────────────────────────────────────────────
 
 export async function createDemo(
   data: Omit<Demo, "id" | "createdAt">
@@ -106,6 +119,8 @@ export async function deleteDemo(id: string): Promise<void> {
   await deleteDoc(doc(db, "demos", id));
 }
 
+// ─── PROJECTS ─────────────────────────────────────────────────────────────────
+
 export async function createProject(
   data: Omit<Project, "id" | "createdAt">
 ): Promise<string> {
@@ -139,6 +154,8 @@ export async function deleteProject(id: string): Promise<void> {
   await deleteDoc(doc(db, "projects", id));
 }
 
+// ─── ADMIN SETTINGS ───────────────────────────────────────────────────────────
+
 export async function getAdminSettings(): Promise<AdminSettings> {
   const snap = await getDoc(doc(db, "adminSettings", "main"));
   if (!snap.exists()) {
@@ -163,4 +180,37 @@ export async function updateAdminSettings(
   data: Partial<AdminSettings>
 ): Promise<void> {
   await setDoc(doc(db, "adminSettings", "main"), data, { merge: true });
+}
+
+// ─── HERO SETTINGS (NEW) ──────────────────────────────────────────────────────
+
+const DEFAULT_HERO: HeroSettings = {
+  heroTitle:
+    "I build high-converting websites for creators, local businesses, and Instagram-based sellers",
+  heroSubtitle:
+    "Turn your audience into customers with a website built for trust and conversions",
+  heroTagline: "Manoj Sen — Web Developer",
+  profileImageUrl: "",
+  imageLayout: "right-hero",
+  backgroundType: "gradient",
+  primaryColor: "#060818",
+  secondaryColor: "#160830",
+  textColor: "#ffffff",
+  backgroundImageUrl: "",
+};
+
+export async function getHeroSettings(): Promise<HeroSettings> {
+  const snap = await getDoc(doc(db, "settings", "hero"));
+  if (!snap.exists()) return DEFAULT_HERO;
+  return { ...DEFAULT_HERO, ...snap.data() } as HeroSettings;
+}
+
+export async function updateHeroSettings(
+  data: Partial<HeroSettings>
+): Promise<void> {
+  await setDoc(
+    doc(db, "settings", "hero"),
+    { ...data, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
 }
