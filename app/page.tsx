@@ -1,4 +1,4 @@
-import { getAllProjects, getAdminSettings } from "@/lib/firestore";
+import { getAllProjects, getAdminSettings, getHeroSettings } from "@/lib/firestore";
 import HeroSection from "@/components/home/HeroSection";
 import ProjectsPreview from "@/components/home/ProjectsPreview";
 import DemoRequestForm from "@/components/home/DemoRequestForm";
@@ -9,19 +9,18 @@ import { ArrowRight, Zap, Smartphone, Shield, TrendingUp } from "lucide-react";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [projects, settings] = await Promise.all([
+  const [projects, settings, hero] = await Promise.all([
     getAllProjects(),
     getAdminSettings(),
+    getHeroSettings(),
   ]);
 
   return (
     <>
-      <HeroSection
-        headline={settings.homepageHeadline}
-        subtext={settings.homepageSubtext}
-        settings={settings}
-      />
+      {/* ── Hero ──────────────────────────────────────── */}
+      <HeroSection hero={hero} />
 
+      {/* ── Who I Build For ───────────────────────────── */}
       <section className="py-24 bg-slate-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
@@ -30,27 +29,52 @@ export default async function HomePage() {
               Built for your business
             </h2>
             <p className="text-slate-500 mt-3 max-w-lg mx-auto text-base">
-              Whether you grow on Instagram, run a local shop, or create content — you deserve a site that converts.
+              Whether you grow on Instagram, run a local shop, or create
+              content — you deserve a site that converts.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { title: "Online Creators", desc: "Turn your followers into buyers with a personal brand site that converts.", bg: "bg-violet-50", icon: "🎨" },
-              { title: "Local Businesses", desc: "Get found online. Show your services, collect leads, and grow locally.", bg: "bg-blue-50", icon: "🏪" },
-              { title: "Instagram Sellers", desc: "Move beyond DMs. Sell your products with a trust-building storefront.", bg: "bg-pink-50", icon: "📦" },
+              {
+                title: "Online Creators",
+                desc: "Turn your followers into buyers with a personal brand site that converts.",
+                bg: "bg-violet-50",
+                icon: "🎨",
+              },
+              {
+                title: "Local Businesses",
+                desc: "Get found online. Show your services, collect leads, and grow locally.",
+                bg: "bg-blue-50",
+                icon: "🏪",
+              },
+              {
+                title: "Instagram Sellers",
+                desc: "Move beyond DMs. Sell your products with a trust-building storefront.",
+                bg: "bg-pink-50",
+                icon: "📦",
+              },
             ].map((card) => (
-              <div key={card.title} className={`card card-hover p-6 border-0 ${card.bg}`}>
+              <div
+                key={card.title}
+                className={`card card-hover p-6 border-0 ${card.bg}`}
+              >
                 <div className="text-4xl mb-4">{card.icon}</div>
-                <h3 className="font-bold text-slate-900 font-display mb-2">{card.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{card.desc}</p>
+                <h3 className="font-bold text-slate-900 font-display mb-2">
+                  {card.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {card.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ── Projects Preview ──────────────────────────── */}
       <ProjectsPreview projects={projects} />
 
+      {/* ── Why Me ────────────────────────────────────── */}
       <section className="py-24 bg-slate-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
@@ -61,16 +85,40 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { icon: Zap, label: "Fast Delivery", desc: "Live in days", color: "text-amber-500 bg-amber-50" },
-              { icon: Smartphone, label: "Mobile-First", desc: "Perfect on all devices", color: "text-blue-500 bg-blue-50" },
-              { icon: Shield, label: "Secure", desc: "Enterprise-grade", color: "text-emerald-500 bg-emerald-50" },
-              { icon: TrendingUp, label: "Converts", desc: "Built to sell", color: "text-violet-500 bg-violet-50" },
+              {
+                icon: Zap,
+                label: "Fast Delivery",
+                desc: "Live in days",
+                color: "text-amber-500 bg-amber-50",
+              },
+              {
+                icon: Smartphone,
+                label: "Mobile-First",
+                desc: "Perfect on all devices",
+                color: "text-blue-500 bg-blue-50",
+              },
+              {
+                icon: Shield,
+                label: "Secure",
+                desc: "Enterprise-grade",
+                color: "text-emerald-500 bg-emerald-50",
+              },
+              {
+                icon: TrendingUp,
+                label: "Converts",
+                desc: "Built to sell",
+                color: "text-violet-500 bg-violet-50",
+              },
             ].map((item) => (
               <div key={item.label} className="card card-hover p-6 text-center">
-                <div className={`w-12 h-12 rounded-2xl ${item.color} flex items-center justify-center mx-auto mb-4`}>
+                <div
+                  className={`w-12 h-12 rounded-2xl ${item.color} flex items-center justify-center mx-auto mb-4`}
+                >
                   <item.icon className="w-6 h-6" />
                 </div>
-                <p className="font-bold text-slate-900 font-display text-sm">{item.label}</p>
+                <p className="font-bold text-slate-900 font-display text-sm">
+                  {item.label}
+                </p>
                 <p className="text-xs text-slate-500 mt-1">{item.desc}</p>
               </div>
             ))}
@@ -78,6 +126,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── CTA Banner ────────────────────────────────── */}
       <section className="py-24 bg-slate-900">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <span className="inline-flex items-center gap-2 bg-blue-600/20 text-blue-400 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 uppercase tracking-wider">
@@ -87,7 +136,8 @@ export default async function HomePage() {
             See your website before you pay
           </h2>
           <p className="text-slate-400 mb-8 max-w-md mx-auto">
-            I will build a free demo tailored to your business. No payment, no commitment.
+            I will build a free demo tailored to your business. No payment, no
+            commitment.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             <Link href="/request-demo" className="btn-primary">
@@ -102,6 +152,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Request Demo Form ─────────────────────────── */}
       <section className="py-24 bg-white" id="request-form">
         <div className="max-w-lg mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
