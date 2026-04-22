@@ -6,7 +6,8 @@ import Footer from "@/components/layout/Footer";
 import PopupProvider from "@/components/PopupProvider";
 import { getSeoSettings } from "@/lib/firestore";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://manoz-portfolio.vercel.app";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://manoz-portfolio-546n.vercel.app";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoSettings();
@@ -21,7 +22,6 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: seo.keywords.split(",").map((k) => k.trim()),
     authors: [{ name: "Manoj Sen", url: BASE_URL }],
     creator: "Manoj Sen",
-    publisher: "Manoj Sen",
     robots: {
       index: true,
       follow: true,
@@ -41,26 +41,20 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seo.description,
       images: seo.ogImage
         ? [{ url: seo.ogImage, width: 1200, height: 630, alt: seo.title }]
-        : [{ url: `${BASE_URL}/og-default.jpg`, width: 1200, height: 630, alt: seo.title }],
+        : [],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.title,
       description: seo.description,
-      images: seo.ogImage ? [seo.ogImage] : [`${BASE_URL}/og-default.jpg`],
-      creator: "@manozsen",
+      images: seo.ogImage ? [seo.ogImage] : [],
     },
     alternates: {
       canonical: BASE_URL,
     },
-    icons: {
-      icon: "/favicon.ico",
-      apple: "/apple-touch-icon.png",
-    },
   };
 }
 
-// ── JSON-LD Structured Data ────────────────────────────────────────────────────
 function JsonLd() {
   const schema = {
     "@context": "https://schema.org",
@@ -70,8 +64,13 @@ function JsonLd() {
     jobTitle: "Web Developer",
     description:
       "I build high-converting websites for creators, local businesses, and Instagram-based sellers.",
-    sameAs: [],
-    knowsAbout: ["Web Development", "Next.js", "React", "Tailwind CSS", "Firebase"],
+    knowsAbout: [
+      "Web Development",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "Firebase",
+    ],
     offers: {
       "@type": "Offer",
       description: "Free website demo for businesses",
@@ -87,12 +86,20 @@ function JsonLd() {
   );
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
