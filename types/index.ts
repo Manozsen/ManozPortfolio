@@ -56,7 +56,6 @@ export interface AdminSettings {
   heroBgColor: string;
 }
 
-// ─── NEW: Hero Settings ───────────────────────────────────────────────────────
 export interface HeroSettings {
   heroTitle: string;
   heroSubtitle: string;
@@ -68,5 +67,23 @@ export interface HeroSettings {
   secondaryColor: string;
   textColor: string;
   backgroundImageUrl: string;
+  updatedAt?: Timestamp;
+}
+
+export interface PopupSettings {
+  enabled: boolean;
+  title: string;
+  description: string;
+  image: string;
+  buttonText: string;
+  buttonLink: string;
+  updatedAt?: Timestamp;
+}
+
+export interface SeoSettings {
+  title: string;
+  description: string;
+  keywords: string;
+  ogImage: string;
   updatedAt?: Timestamp;
 }
