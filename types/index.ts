@@ -61,7 +61,11 @@ export interface HeroSettings {
   heroSubtitle: string;
   heroTagline: string;
   profileImageUrl: string;
-  imageLayout: "center-blend" | "right-hero" | "left-hero" | "full-overlay";
+  imageLayout: "left" | "center" | "right" | "hidden";
+  imageShape: "none" | "circle" | "square" | "rounded";
+  imageSize: "small" | "medium" | "large";
+  imageOpacity: number;
+  imageVisible: boolean;
   backgroundType: "color" | "gradient" | "image";
   primaryColor: string;
   secondaryColor: string;
