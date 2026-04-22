@@ -55,3 +55,18 @@ export interface AdminSettings {
   heroBgOpacity: number;
   heroBgColor: string;
 }
+
+// ─── NEW: Hero Settings ───────────────────────────────────────────────────────
+export interface HeroSettings {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroTagline: string;
+  profileImageUrl: string;
+  imageLayout: "center-blend" | "right-hero" | "left-hero" | "full-overlay";
+  backgroundType: "color" | "gradient" | "image";
+  primaryColor: string;
+  secondaryColor: string;
+  textColor: string;
+  backgroundImageUrl: string;
+  updatedAt?: Timestamp;
+}
