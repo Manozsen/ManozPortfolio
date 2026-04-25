@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(BASE_URL),
     title: {
       default: seo.title,
-      template: `%s | Manoz`,
+      template: "%s | Manoz",
     },
     description: seo.description,
     keywords: seo.keywords.split(",").map((k) => k.trim()),
@@ -94,16 +94,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <JsonLd />
       </head>
       <body>
