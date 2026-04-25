@@ -66,11 +66,34 @@ export interface HeroSettings {
   imageSize: "small" | "medium" | "large";
   imageOpacity: number;
   imageVisible: boolean;
-  backgroundType: "color" | "gradient" | "image";
+  backgroundType: "color" | "gradient" | "image" | "video";
   primaryColor: string;
   secondaryColor: string;
   textColor: string;
   backgroundImageUrl: string;
+  // ── Video ─────────────────────────────────────
+  videoUrl: string;
+  fallbackImageUrl: string;
+  enableVideo: boolean;
+  // ── Animated background ───────────────────────
+  enableAnimation: boolean;
+  animationSpeed: "slow" | "medium" | "fast";
+  glowIntensity: "subtle" | "medium" | "strong";
+  // ── 3D ───────────────────────────────────────
+  enable3DTransition: boolean;
+  transitionIntensity: "low" | "medium" | "high";
+  enable3D: boolean;
+  enableCardTilt: boolean;
+  updatedAt?: Timestamp;
+}
+
+export interface SectionTwoSettings {
+  enabled: boolean;
+  backgroundImageUrl: string;
+  heading: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
   updatedAt?: Timestamp;
 }
 
