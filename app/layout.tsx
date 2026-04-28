@@ -7,7 +7,8 @@ import PopupProvider from "@/components/PopupProvider";
 import { getSeoSettings } from "@/lib/firestore";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://manoz-portfolio-546n.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://manoz-portfolio-546n.vercel.app";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoSettings();
